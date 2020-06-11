@@ -30,3 +30,7 @@
   font-size: .8em;
   text-align: right;
 }
+
+.BookmarkItem__edit {
+  margin-right: 20px;
+}

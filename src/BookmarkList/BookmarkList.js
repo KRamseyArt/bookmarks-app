@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import BookmarksContext from '../BookmarksContext';
 import BookmarkItem from '../BookmarkItem/BookmarkItem';
 
@@ -26,3 +28,12 @@ class BookmarkList extends Component {
 }
 
 export default BookmarkList;
+
+BookmarkList.propTypes ={
+  bookamrsk: PropTypes.arrayOf(PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    rating: PropTypes.number,
+    description: PropTypes.string
+  }))
+}

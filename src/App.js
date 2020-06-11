@@ -3,10 +3,12 @@ import { Route } from 'react-router-dom';
 import BookmarksContext from './BookmarksContext';
 
 import AddBookmark from './AddBookmark/AddBookmark';
+import EditBookmark from './EditBookmarkForm/EditBookmarkForm.js';
 import BookmarkList from './BookmarkList/BookmarkList';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
+import Rating from './Rating/Rating';
 
 class App extends Component {
   state = {
@@ -36,6 +38,17 @@ class App extends Component {
     })
   }
 
+  updateBookmark = updatedBookmark => {
+    const newBookmarks = this.state.bookmarks.map(bookmark =>
+      (bookmark.id === updatedBookmark.id)
+      ? updatedBookmark
+      : bookmark  
+    )
+    this.setState({
+      bookmarks: newBookmarks
+    })
+  }
+
   componentDidMount() {
     fetch(config.API_ENDPOINT, {
       method: 'GET',
@@ -58,11 +71,13 @@ class App extends Component {
     const contextValue = {
       bookmarks: this.state.bookmarks,
       addBookmark: this.addBookmark,
-      deleteBookmark: this.deleteBookmark
+      deleteBookmark: this.deleteBookmark,
+      updateBookmark: this.updateBookmark
     }
     return (
       <main className='App'>
         <h1>Bookmarks!</h1>
+        <Rating />
         <BookmarksContext.Provider
           value={contextValue}
         >
@@ -71,6 +86,10 @@ class App extends Component {
             <Route
               path='/add-bookmark'
               component={AddBookmark}
+            />
+            <Route
+              path='/edit/:bookmarkId'
+              component={EditBookmark}
             />
             <Route
               exact

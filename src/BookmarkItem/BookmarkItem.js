@@ -1,11 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Rating from '../Rating/Rating';
+import PropTypes from 'prop-types';
+
 import BookmarksContext from '../BookmarksContext';
 
 import config from '../config';
 import './BookmarkItem.css';
 
 function deleteBookmarkRequest(bookmarkId, callback) {
+  console.log(`${bookmarkId} clicked`)
   fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
     method: 'DELETE',
     headers: {
@@ -20,7 +24,7 @@ function deleteBookmarkRequest(bookmarkId, callback) {
           throw error
         })
       }
-      return res.json()
+      return res.json();
     })
     .then(data => {
       // call the callback when the request is successful
@@ -52,6 +56,12 @@ export default function BookmarkItem(props) {
             {props.description}
           </p>
           <div className='BookmarkItem__buttons'>
+            <Link
+              className='BookmarkItem__edit'
+              to={`/edit/${props.id}`}
+            >
+              Edit
+            </Link>
             <button
               className='BookmarkItem__description'
               onClick={() => {
@@ -72,5 +82,33 @@ export default function BookmarkItem(props) {
 }
 
 BookmarkItem.defaultProps = {
+  rating: 1,
+  description: "",
   onClickDelete: () => {},
+}
+
+BookmarkItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: (props, propName, componentName) => {
+    //get the value of the prop
+    const prop = props[propName];
+
+    //do the isRequired check
+    if (!prop){
+      return new Error(`${propName} is required in ${componentName}. Validation failed`);
+    }
+
+    //check the type
+    if (typeof prop != 'string'){
+      return new Error(`Invalid prop, ${propName} is expected to be a string in ${componentName}. ${typeof prop} found`);
+    }
+
+    //custom check here
+    // use a simple regex
+    if(prop.length < 5 || !prop.match(new RegExp(/^https?:\/\//))){
+      return new Error(`Invalid prop, ${propName} must be min length 5 and begin with http(s)://. Validation failed.`);
+    }
+  },
+  rating: PropTypes.number,
+  description: PropTypes.string
 }
