@@ -22,10 +22,10 @@ export class EditBookmarkForm extends Component {
 
   componentDidMount() {
     const bookmarkId = this.props.match.params.bookmarkId;
-    fetch(`http://localhost:8000/api/bookmarks/${bookmarkId}`, {
+    fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
       method: 'GET',
       headers: {
-        'authorization': `bearer ${config.API_KEY}`
+        'authorization': `bearer ${config.API_TOKEN}`
       }
     })
       .then(res => {
@@ -65,12 +65,12 @@ export class EditBookmarkForm extends Component {
     }
     // this.setState({ error: null })
     
-    fetch(`http://localhost:8000/api/bookmarks/${this.props.match.params.bookmarkId}`, {
+    fetch(config.API_ENDPOINT + `/${this.props.match.params.bookmarkId}`, {
       method: 'PATCH',
       body: JSON.stringify(bookmark),
       headers: {
         'content-type': 'application/json',
-        'authorization': `bearer ${config.API_KEY}`
+        'authorization': `bearer ${config.API_TOKEN}`
       }
     })
       .then(res => {

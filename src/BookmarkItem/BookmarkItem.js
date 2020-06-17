@@ -13,7 +13,7 @@ function deleteBookmarkRequest(bookmarkId, callback) {
   fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
     method: 'DELETE',
     headers: {
-      'authorization': `bearer ${config.API_KEY}`
+      'authorization': `bearer ${config.API_TOKEN}`
     }
   })
     .then(res => {
@@ -82,6 +82,8 @@ export default function BookmarkItem(props) {
 }
 
 BookmarkItem.defaultProps = {
+  title: "",
+  url: "",
   rating: 1,
   description: "",
   onClickDelete: () => {},
