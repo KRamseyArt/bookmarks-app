@@ -16,20 +16,18 @@ export class EditBookmarkForm extends Component {
     title: '',
     url: '',
     description: '',
-    rating: 1,
     error: null,
   };
 
   componentDidMount() {
     const bookmarkId = this.props.match.params.bookmarkId;
-    fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
+    fetch(config.API_ENDPOINT + `/api/bookmarks/${bookmarkId}`, {
       method: 'GET',
       headers: {
         'authorization': `bearer ${config.API_TOKEN}`
       }
     })
       .then(res => {
-        console.log(res);
         if (!res.ok) {
           // get the error message from the response,
           return res.json().then(error => {
@@ -65,7 +63,7 @@ export class EditBookmarkForm extends Component {
     }
     // this.setState({ error: null })
     
-    fetch(config.API_ENDPOINT + `/${this.props.match.params.bookmarkId}`, {
+    fetch(config.API_ENDPOINT + `/api/bookmarks/${this.props.match.params.bookmarkId}`, {
       method: 'PATCH',
       body: JSON.stringify(bookmark),
       headers: {
@@ -74,7 +72,6 @@ export class EditBookmarkForm extends Component {
       }
     })
       .then(res => {
-        console.log(res);
         if (!res.ok) {
           // get the error message from the response,
           return res.json().then(error => {
@@ -82,12 +79,11 @@ export class EditBookmarkForm extends Component {
             throw error
           })
         }
-        return res.json()
+        return res
       })
       .then(data => {
         this.context.updateBookmark(bookmark)
         this.props.history.push('/')
-
       })
       .catch(error => {
         this.setState({ error })

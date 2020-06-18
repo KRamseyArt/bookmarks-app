@@ -16,12 +16,12 @@ class App extends Component {
     error: null,
   };
 
-  setBookmarks = bookmarks => {
-    this.setState({
-      bookmarks,
-      error: null,
-    })
-  }
+  // setBookmarks = bookmarks => {
+  //   this.setState({
+  //     bookmarks,
+  //     error: null,
+  //   })
+  // }
 
   addBookmark = bookmark => {
     this.setState({
@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch(config.API_ENDPOINT, {
+    fetch(`${config.API_ENDPOINT}/api/bookmarks`, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
@@ -61,9 +61,16 @@ class App extends Component {
         if (!res.ok) {
           throw new Error(res.status)
         }
+        console.log(res)
         return res.json()
       })
-      .then(this.setBookmarks)
+      .then(data => {
+        this.setState({
+          bookmarks: data,
+          error: null
+        })
+        // this.setBookmarks(data)
+      })
       .catch(error => this.setState({ error }))
   }
 

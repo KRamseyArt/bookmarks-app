@@ -9,8 +9,7 @@ import config from '../config';
 import './BookmarkItem.css';
 
 function deleteBookmarkRequest(bookmarkId, callback) {
-  console.log(`${bookmarkId} clicked`)
-  fetch(config.API_ENDPOINT + `/${bookmarkId}`, {
+  fetch(config.API_ENDPOINT + `/api/bookmarks/${bookmarkId}`, {
     method: 'DELETE',
     headers: {
       'authorization': `bearer ${config.API_TOKEN}`
@@ -24,7 +23,7 @@ function deleteBookmarkRequest(bookmarkId, callback) {
           throw error
         })
       }
-      return res.json();
+      return res;
     })
     .then(data => {
       // call the callback when the request is successful
