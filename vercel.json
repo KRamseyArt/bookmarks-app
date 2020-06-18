@@ -10,5 +10,10 @@
       "src": ".*",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "API_TOKEN": "06d6f885-ad9d-4abb-bf70-bd05314e3ec0"
+    }
+  }
 }
